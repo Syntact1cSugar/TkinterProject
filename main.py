@@ -70,6 +70,18 @@ class DoublyLinkedList :
             self.__head = curr
             curr = curr.prev
         return True
+    
+     # Insertion Sort (Non Decreasing Order) 
+     def sort(self) : 
+        curr = self.__head 
+        if(curr == None) : return True
+        while(curr != None) :
+            value, back = curr.data, curr
+            while(back.prev != None and back.prev.data > value) : 
+                back.data = back.prev.data
+                back = back.prev
+            back.data = value
+            curr = curr.next
 
 
 #Driver Code : main()
