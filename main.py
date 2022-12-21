@@ -47,10 +47,11 @@ class DoublyLinkedList :
         while(curr.next != None) :
             prev = curr
             curr = curr.next
-        if(prev == self.__head) : # penultimate node is the header node itself 
+        if(curr == self.__head) : #  last node is the header node itself 
             self.__head = None
         else : 
             prev.next = None
+        del curr
         return True # delete success
     
     # Utility operations on the linked list : 
@@ -72,7 +73,7 @@ class DoublyLinkedList :
         return True
     
      # Insertion Sort (Non Decreasing Order) 
-     def sort(self) : 
+    def sort(self) : 
         curr = self.__head 
         if(curr == None) : return True
         while(curr != None) :
@@ -82,15 +83,33 @@ class DoublyLinkedList :
                 back = back.prev
             back.data = value
             curr = curr.next
-
+    
+    def removeDuplicates(self) : 
+        curr = self.__head
+        if(curr == None) : return False
+        # two pointer appraoch by sorting
+        self.sort()
+        slow, fast = curr, curr.next
+        # slow + 1th node marks the end of unique numbers
+        
+        while(fast != None) :
+            if(slow.data != fast.data) : 
+                slow = slow.next
+                slow.data = fast.data
+            fast = fast.next
+        
+        # slow + 1th node till end are redundant nodes therefore delete those
+        curr = slow.next
+        slow.next = None
+        
+        while(curr != None) : 
+            delNode = curr
+            curr = curr.next
+            del delNode
+            
+        return True
 
 #Driver Code : main()
 d = DoublyLinkedList()
 # Perform operations on d here
-d.insertFront(1)
-d.insertFront(2)
-d.insertFront(3)
-d.insertFront(4)
-d.PrintList()
-d.reverse();
-d.PrintList()
+
