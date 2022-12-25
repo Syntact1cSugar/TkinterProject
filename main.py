@@ -18,7 +18,7 @@ def createNewWindow():
     newWindow.title("About")
     newWindow.geometry('550x200')
     text = Text(newWindow, width=50, height=30, background="white", foreground="black", font=('Times New Roman', 13, 'bold'))
-    text.insert(INSERT, "This code was contributed by : \n\n1.Subramanya H(20GACSE069) \n\n2.Suchit Priyadarshi(20GACSE070 \n\n3.Sujatha Bhat(20GACSE071)")
+    text.insert(INSERT, "This code was contributed by : \n\n1.Subramanya H(20GACSE069) \n\n2.Suchit Priyadarshi(20GACSE070) \n\n3.Sujatha Bhat(20GACSE071)")
     text.pack(expand=1, fill=BOTH)
     btn = Button(newWindow, text="Back", bg="black", fg="white", command=newWindow.destroy)
     btn.place(x=100, y=150)
