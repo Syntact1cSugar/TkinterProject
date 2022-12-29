@@ -1,8 +1,7 @@
-import sys
-import os
 import tkinter
 from tkinter import *
 import tkinter.font as font
+
 
 # Doubly Linked List Implementation
 
@@ -67,7 +66,7 @@ class DoublyLinkedList:
     # Utility operations on the linked list :
     def printList(self):
         print("List contains : ", end=' ')
-        curr = self.__head;
+        curr = self.__head
         # curr pointer traverses the linked list from header to the last node
         while (curr != None):
             print(curr.data)
@@ -126,69 +125,84 @@ class DoublyLinkedList:
 
 def run():
     # Create the main window
-    window1 = Toplevel(window)
-    window1.title("Doubly Linked List")
-    window1.geometry("1000x1000")
-
-    tkinter.Label(window1, font=('Consolas', 15, 'underline', 'bold'), text="Input").pack()
+    newWindow = Toplevel(window)
+    newWindow.title("Doubly Linked List")
+    newWindow.geometry("1000x1000")
+    newWindow.configure(bg='#d6d6d6')
 
     # StringVar() variable for the textvariable option in entry()
     input = tkinter.StringVar()
+    output = tkinter.StringVar()
+
+    tkinter.Label(newWindow, font=('Comic Sans MS', 20, 'underline', 'bold'), text="Input").pack()
+
+
     # Create a text entry widget to enter values
-    inputEntry = tkinter.Entry(window1, justify=CENTER, textvariable=input)
+    inputEntry = tkinter.Entry(newWindow, justify=CENTER, textvariable=input)
     inputEntry.pack(pady=(10, 10))
 
     # Create a button to insert a value at the front of the list
-    insert_front_button = tkinter.Button(window1, font=buttonFont, text="Insert Front",
+    insert_front_button = tkinter.Button(newWindow, font=buttonFont, text="Insert Front",
                                          command=lambda: dll.insertFront(int(input.get())))
     insert_front_button.pack(pady=(10, 10))
 
     # Create a button to insert a value at the end of the list
-    insert_rear_button = tkinter.Button(window1, font=buttonFont, text="Insert Rear", command=lambda: dll.insertRear(int(input.get())))
+    insert_rear_button = tkinter.Button(newWindow, font=buttonFont, text="Insert Rear",
+                                        command=lambda: dll.insertRear(int(input.get())))
     insert_rear_button.pack(pady=(10, 10))
 
     # Create a button to delete the node at the front of the list
-    delete_front_button = tkinter.Button(window1, font=buttonFont, text="Delete Front", command=dll.deleteFront)
+    delete_front_button = tkinter.Button(newWindow, font=buttonFont, text="Delete Front", command=dll.deleteFront)
     delete_front_button.pack(pady=(10, 10))
 
     # Create a button to delete the node at the end of the list
-    delete_rear_button = tkinter.Button(window1, font=buttonFont, text="Delete Rear", command=dll.deleteRear)
+    delete_rear_button = tkinter.Button(newWindow, font=buttonFont, text="Delete Rear", command=dll.deleteRear)
     delete_rear_button.pack(pady=(10, 10))
 
     # Create a button to reverse the list
-    reverse_button = tkinter.Button(window1, font=buttonFont, text="Reverse", command=dll.reverse)
+    reverse_button = tkinter.Button(newWindow, font=buttonFont, text="Reverse", command=dll.reverse)
     reverse_button.pack(pady=(10, 10))
 
     # Create a button to sort the list
-    sort_button = Button(window1, font=buttonFont, text="Sort", command=dll.sort)
+    sort_button = Button(newWindow, font=buttonFont, text="Sort", command=dll.sort)
     sort_button.pack(pady=(10, 10))
 
     # Create a button to remove duplicates from the list
-    remove_duplicates_button = tkinter.Button(window1, font=buttonFont, text="Remove Duplicates", command=dll.removeDuplicates)
+    remove_duplicates_button = tkinter.Button(newWindow, font=buttonFont, text="Remove Duplicates",
+                                              command=dll.removeDuplicates)
     remove_duplicates_button.pack(pady=(10, 10))
 
-    back = tkinter.Button(window1, font=buttonFont, text="Remove Duplicates", command=window1.destroy)
-    back.pack(pady=(10, 10))
-
-
-
-    tkinter.Label(window1, font=('Consolas', 15, 'underline', 'bold'), text="Output").pack()
+    tkinter.Label(newWindow, font=('Comic Sans MS', 20, 'underline', 'bold'), text="Output").pack()
     # Output entry widget
-    outputEntry = tkinter.Entry(window1, justify=CENTER, textvariable=input)
+    outputEntry = tkinter.Entry(newWindow, width=200, justify=CENTER, textvariable=output)
     outputEntry.pack()
+
+    # Back Button
+    back_btn = Button(newWindow, width=5, height=2, text="Back", bg="black", fg="white", command=newWindow.destroy)
+    back_btn.pack(side=BOTTOM, expand=4)
+    # Hovering for the back btn
+    back_btn.bind("<Enter>", on_enter_gray)
+    back_btn.bind("<Leave>", on_leave_black)
 
 
 def api_info():
     newWindow = Toplevel(window)
     newWindow.title("List of APIs")
     newWindow.geometry('1000x1000')
+    newWindow.configure(bg='#d6d6d6')
     text = Text(newWindow, width=50, height=30, background="white", foreground="black",
-                font=('Consolas 15', 13, 'bold'))
-    text.insert(INSERT, "Doubly Linked List API : \n\n1.Insert Node(Front and Rear) \n\n2.Delete Node(Front and Rear) "
-                        "\n\n3.Reverse List \n\n4.Sort List \n\n 5.Remove Duplicates")
-    text.pack(expand=1, fill=BOTH)
-    btn = Button(newWindow, text="Back", bg="black", fg="white", command=newWindow.destroy)
-    btn.place(x=950, y=0)
+                font=('Comic Sans MS', 20, 'bold'))
+    text.insert(INSERT, "Operations on the doubly linked list :")
+    text.insert(INSERT, "\n\n1.Insert Node(Front and Rear) \n\n2.Delete Node(Front and Rear) \n\n3.Reverse List "
+                        "\n\n4.Sort List \n\n5.Remove Duplicates")
+    text.pack(anchor='center')
+
+    # Back Button
+    back_btn = Button(newWindow, width=5, height=2, text="Back", bg="black", fg="white", command=newWindow.destroy)
+    back_btn.place(x=950, y=0)
+    # Hovering for the back btn
+    back_btn.bind("<Enter>", on_enter_gray)
+    back_btn.bind("<Leave>", on_leave_black)
     return
 
 
@@ -196,17 +210,30 @@ def about():
     newWindow = Toplevel(window)
     newWindow.title("About")
     newWindow.geometry('1000x1000')
+    newWindow.configure(bg='#d6d6d6')
+
     text = Text(newWindow, width=50, height=30, background="white", foreground="black",
-                font=('Consolas 15', 13, 'bold'))
+                font=('Comic Sans MS', 20, 'bold'))
     text.insert(INSERT, "This code was contributed by : \n\n1.Subramanya H(20GACSE069) \n\n2.Suchit Priyadarshi("
                         "20GACSE070) \n\n3.Sujatha Bhat(20GACSE071)")
-    text.pack(expand=1, fill=BOTH)
-    btn = Button(newWindow, text="Back", bg="black", fg="white", command=newWindow.destroy)
-    btn.place(x=950, y=0)
+    text.pack(anchor='center')
+
+    # Back Button
+    back_btn = Button(newWindow, width=5, height=2, text="Back", bg="black", fg="white", command=newWindow.destroy)
+    back_btn.place(x=950, y=0)
+    # Hovering for the back btn
+    back_btn.bind("<Enter>", on_enter_gray)
+    back_btn.bind("<Leave>", on_leave_black)
     return
 
 
-# Four buttons on parent window
+# Functions for button hovering
+def on_enter_gray(e):
+    e.widget['background'] = '#363636'
+
+
+def on_leave_black(e):
+    e.widget['background'] = 'black'
 
 
 # Main Menu
@@ -215,20 +242,36 @@ dll = DoublyLinkedList()
 window = Tk()
 window.title("Run Python Script")
 window.geometry('1000x1000')
-buttonFont = font.Font(family='Consolas 15', size=16, weight='bold')
+window.configure(bg='#d6d6d6')
 
-# Scroll bar for this window
+buttonFont = font.Font(family='Comic Sans MS', size=18, weight='bold')
 
-btn1 = Button(window, height=10, width=80, font=buttonFont, text="Run Doubly Linked List", justif=CENTER, bg="black", fg="white", command=run)
-btn2 = Button(window, height=10, width=80, font=buttonFont, text="List of Operations Implemented", justify=CENTER, fg="white", bg="black", command=api_info)
-btn3 = Button(window, height=10, width=80, font=buttonFont, text="About", justify=CENTER, fg="white", bg="black", command=about)
-btn4 = Button(window, height=10, width=80, font=buttonFont, text="Exit", justify=CENTER, bg="black", fg="white", command=window.destroy)
+# Four buttons on parent window
+
+btn1 = Button(window, height=5, width=70, font=buttonFont, text="Run Doubly Linked List", bg="black",
+              fg="white", command=run)
+btn2 = Button(window, height=5, width=70, font=buttonFont, text="List of Operations Implemented", justify=CENTER,
+              fg="white", bg="black", command=api_info)
+btn3 = Button(window, height=5, width=70, font=buttonFont, text="About", justify=CENTER, fg="white", bg="black",
+              command=about)
+btn4 = Button(window, height=5, width=70, font=buttonFont, text="Exit", justify=CENTER, bg="black", fg="white",
+              command=window.destroy)
 
 # Positions of each button
-btn1.grid(row=0)
-btn2.grid(row=1)
-btn3.grid(row=2)
-btn4.grid(row=3)
+btn1.pack(anchor='center', pady=(8, 8))
+btn2.pack(anchor='center', pady=(8, 8))
+btn3.pack(anchor='center', pady=(8, 8))
+btn4.pack(anchor='center', pady=(8, 8))
 
+# Hovering effects for button
+btn1.bind("<Enter>", on_enter_gray)
+btn1.bind("<Leave>", on_leave_black)
+btn2.bind("<Enter>", on_enter_gray)
+btn2.bind("<Leave>", on_leave_black)
+btn3.bind("<Enter>", on_enter_gray)
+btn3.bind("<Leave>", on_leave_black)
+btn4.bind("<Enter>", on_enter_gray)
+btn4.bind("<Leave>", on_leave_black)
 window.mainloop()
+
 dll.printList()
