@@ -19,7 +19,6 @@ class DoublyLinkedList:
 
     # Insert operations on the linked list :
     def insertFront(self, data):
-        print(data)
         newNode = Node(data, None, self.__head)
         if (self.__head != None):
             self.__head.prev = newNode
@@ -65,13 +64,13 @@ class DoublyLinkedList:
 
     # Utility operations on the linked list :
     def printList(self):
-        print("List contains : ", end=' ')
         curr = self.__head
+        list = []
         # curr pointer traverses the linked list from header to the last node
         while (curr != None):
-            print(curr.data)
+            list.append(str(curr.data))
             curr = curr.next
-        return True
+        return list
 
     def reverse(self):
         if (self.__head == None): return False
@@ -123,6 +122,23 @@ class DoublyLinkedList:
 # End of Doubly Linked List Implementation
 
 
+# Utility Functions for button hovering effects
+def on_enter_gray(e):
+    e.widget['background'] = '#363636'
+
+
+def on_leave_black(e):
+    e.widget['background'] = 'black'
+
+
+def print_output(outputText):
+    outputText.delete("1.0", "end")
+    for s in dll.printList():
+        outputText.insert(END, s)
+        outputText.insert(END, "\t")
+    return
+
+
 def run():
     # Create the main window
     newWindow = Toplevel(window)
@@ -132,54 +148,96 @@ def run():
 
     # StringVar() variable for the textvariable option in entry()
     input = tkinter.StringVar()
-    output = tkinter.StringVar()
 
-    tkinter.Label(newWindow, font=('Comic Sans MS', 20, 'underline', 'bold'), text="Input").pack()
+    # Output label
+    tkinter.Label(newWindow, font=('Comic Sans MS', 20, 'bold'), text="Input").pack()
 
-
-    # Create a text entry widget to enter values
-    inputEntry = tkinter.Entry(newWindow, justify=CENTER, textvariable=input)
+    # create a text entry to take input
+    inputEntry = tkinter.Entry(newWindow, font=('Comic Sans MS', 15, 'bold'), width=20, justify=CENTER,
+                               textvariable=input)
     inputEntry.pack(pady=(10, 10))
 
-    # Create a button to insert a value at the front of the list
+    # Create a button to insert front of the list
     insert_front_button = tkinter.Button(newWindow, font=buttonFont, text="Insert Front",
                                          command=lambda: dll.insertFront(int(input.get())))
+    insert_front_button['background'] = "black"
+    insert_front_button['foreground'] = 'white'
+    insert_front_button.bind("<Enter>", on_enter_gray)
+    insert_front_button.bind("<Leave>", on_leave_black)
     insert_front_button.pack(pady=(10, 10))
 
-    # Create a button to insert a value at the end of the list
+    # Create a button to insert rear of the list
     insert_rear_button = tkinter.Button(newWindow, font=buttonFont, text="Insert Rear",
                                         command=lambda: dll.insertRear(int(input.get())))
+    insert_rear_button['background'] = 'black'
+    insert_rear_button['foreground'] = 'white'
+    insert_rear_button.bind("<Enter>", on_enter_gray)
+    insert_rear_button.bind("<Leave>", on_leave_black)
     insert_rear_button.pack(pady=(10, 10))
 
     # Create a button to delete the node at the front of the list
     delete_front_button = tkinter.Button(newWindow, font=buttonFont, text="Delete Front", command=dll.deleteFront)
+    delete_front_button['background'] = 'black'
+    delete_front_button['foreground'] = 'white'
+    delete_front_button.bind("<Enter>", on_enter_gray)
+    delete_front_button.bind("<Leave>", on_leave_black)
     delete_front_button.pack(pady=(10, 10))
 
     # Create a button to delete the node at the end of the list
     delete_rear_button = tkinter.Button(newWindow, font=buttonFont, text="Delete Rear", command=dll.deleteRear)
+    delete_rear_button['foreground'] = 'white'
+    delete_rear_button['background'] = 'black'
+    delete_rear_button.bind("<Enter>", on_enter_gray)
+    delete_rear_button.bind("<Leave>", on_leave_black)
     delete_rear_button.pack(pady=(10, 10))
 
     # Create a button to reverse the list
     reverse_button = tkinter.Button(newWindow, font=buttonFont, text="Reverse", command=dll.reverse)
+    reverse_button['background'] = 'black'
+    reverse_button['foreground'] = 'white'
+    reverse_button.bind("<Enter>", on_enter_gray)
+    reverse_button.bind("<Leave>", on_leave_black)
     reverse_button.pack(pady=(10, 10))
 
     # Create a button to sort the list
     sort_button = Button(newWindow, font=buttonFont, text="Sort", command=dll.sort)
+    sort_button['background'] = 'black'
+    sort_button['foreground'] = 'white'
+    sort_button.bind("<Enter>", on_enter_gray)
+    sort_button.bind("<Leave>", on_leave_black)
     sort_button.pack(pady=(10, 10))
 
     # Create a button to remove duplicates from the list
     remove_duplicates_button = tkinter.Button(newWindow, font=buttonFont, text="Remove Duplicates",
                                               command=dll.removeDuplicates)
+    remove_duplicates_button['background'] = 'black'
+    remove_duplicates_button['foreground'] = 'white'
+    remove_duplicates_button.bind("<Enter>", on_enter_gray)
+    remove_duplicates_button.bind("<Leave>", on_leave_black)
     remove_duplicates_button.pack(pady=(10, 10))
 
-    tkinter.Label(newWindow, font=('Comic Sans MS', 20, 'underline', 'bold'), text="Output").pack()
-    # Output entry widget
-    outputEntry = tkinter.Entry(newWindow, width=200, justify=CENTER, textvariable=output)
-    outputEntry.pack()
+    # Create a button to print / traverse the list
+
+    print_list_button = tkinter.Button(newWindow, font=buttonFont, text='Print List',
+                                       command=lambda: print_output(outputText))
+    print_list_button['background'] = 'black'
+    print_list_button['foreground'] = 'white'
+    print_list_button.bind("<Enter>", on_enter_gray)
+    print_list_button.bind("<Leave>", on_leave_black)
+    print_list_button.pack(pady=(10, 10))
+
+    # Output Label
+    tkinter.Label(newWindow, font=('Comic Sans MS', 15, 'bold'), text="Output : ").pack(pady=(5, 5))
+
+    # Text widget for displaying output
+    outputText = tkinter.Text(newWindow, font=("Comic Sans MS", 15, 'bold'), width=100, height=3)
+    outputText.tag_configure("tag_name", justify="center")
+    outputText.pack()
 
     # Back Button
-    back_btn = Button(newWindow, width=5, height=2, text="Back", bg="black", fg="white", command=newWindow.destroy)
-    back_btn.pack(side=BOTTOM, expand=4)
+    back_btn = Button(newWindow, font=buttonFont, width=5, height=1, text="◁", bg="black", fg="white",
+                      command=newWindow.destroy)
+    back_btn.pack(side=RIGHT, expand=5, fill=X)
     # Hovering for the back btn
     back_btn.bind("<Enter>", on_enter_gray)
     back_btn.bind("<Leave>", on_leave_black)
@@ -190,16 +248,17 @@ def api_info():
     newWindow.title("List of APIs")
     newWindow.geometry('1000x1000')
     newWindow.configure(bg='#d6d6d6')
-    text = Text(newWindow, width=50, height=30, background="white", foreground="black",
-                font=('Comic Sans MS', 20, 'bold'))
-    text.insert(INSERT, "Operations on the doubly linked list :")
-    text.insert(INSERT, "\n\n1.Insert Node(Front and Rear) \n\n2.Delete Node(Front and Rear) \n\n3.Reverse List "
-                        "\n\n4.Sort List \n\n5.Remove Duplicates")
-    text.pack(anchor='center')
+    text1 = Text(newWindow, width=50, height=20, background="white", foreground="black",
+                 font=('Comic Sans MS', 20, 'bold'))
+    text1.insert(INSERT, "Operations on the doubly linked list :")
+    text1.insert(INSERT, "\n\n1.Insert Node(Front and Rear) \n\n2.Delete Node(Front and Rear) \n\n3.Reverse List "
+                         "\n\n4.Sort List \n\n5.Remove Duplicates")
+    text1.pack(anchor='center')
 
     # Back Button
-    back_btn = Button(newWindow, width=5, height=2, text="Back", bg="black", fg="white", command=newWindow.destroy)
-    back_btn.place(x=950, y=0)
+    back_btn = Button(newWindow, font=buttonFont, width=5, height=1, text="◁", bg="black", fg="white",
+                      command=newWindow.destroy)
+    back_btn.pack(fill=X)
     # Hovering for the back btn
     back_btn.bind("<Enter>", on_enter_gray)
     back_btn.bind("<Leave>", on_leave_black)
@@ -212,28 +271,20 @@ def about():
     newWindow.geometry('1000x1000')
     newWindow.configure(bg='#d6d6d6')
 
-    text = Text(newWindow, width=50, height=30, background="white", foreground="black",
+    text = Text(newWindow, width=50, height=20, background="white", foreground="black",
                 font=('Comic Sans MS', 20, 'bold'))
-    text.insert(INSERT, "This code was contributed by : \n\n1.Subramanya H(20GACSE069) \n\n2.Suchit Priyadarshi("
-                        "20GACSE070) \n\n3.Sujatha Bhat(20GACSE071)")
+    text.insert(INSERT, "This code was contributed by : \n\n1.Subramanya H (20GACSE069) \n\n2.Suchit Priyadarshi ("
+                        "20GACSE070) \n\n3.Sujatha Bhat (20GACSE071)")
     text.pack(anchor='center')
 
     # Back Button
-    back_btn = Button(newWindow, width=5, height=2, text="Back", bg="black", fg="white", command=newWindow.destroy)
-    back_btn.place(x=950, y=0)
+    back_btn = Button(newWindow, font=buttonFont, width=5, height=1, text="◁", bg="black", fg="white",
+                      command=newWindow.destroy)
+    back_btn.pack(fill=X)
     # Hovering for the back btn
     back_btn.bind("<Enter>", on_enter_gray)
     back_btn.bind("<Leave>", on_leave_black)
     return
-
-
-# Functions for button hovering
-def on_enter_gray(e):
-    e.widget['background'] = '#363636'
-
-
-def on_leave_black(e):
-    e.widget['background'] = 'black'
 
 
 # Main Menu
@@ -244,34 +295,34 @@ window.title("Run Python Script")
 window.geometry('1000x1000')
 window.configure(bg='#d6d6d6')
 
+# Universal font for buttons
 buttonFont = font.Font(family='Comic Sans MS', size=18, weight='bold')
 
 # Four buttons on parent window
 
-btn1 = Button(window, height=5, width=70, font=buttonFont, text="Run Doubly Linked List", bg="black",
-              fg="white", command=run)
-btn2 = Button(window, height=5, width=70, font=buttonFont, text="List of Operations Implemented", justify=CENTER,
-              fg="white", bg="black", command=api_info)
-btn3 = Button(window, height=5, width=70, font=buttonFont, text="About", justify=CENTER, fg="white", bg="black",
-              command=about)
-btn4 = Button(window, height=5, width=70, font=buttonFont, text="Exit", justify=CENTER, bg="black", fg="white",
-              command=window.destroy)
+run_btn = Button(window, height=6, width=70, font=buttonFont, text="▷ Run Doubly Linked List", bg="black",
+                 fg="white", command=run)
+list_btn = Button(window, height=6, width=70, font=buttonFont, text="⏍ List of Operations", justify=CENTER,
+                  fg="white", bg="black", command=api_info)
+about_btn = Button(window, height=6, width=70, font=buttonFont, text="⌕ About", justify=CENTER, fg="white", bg="black",
+                   command=about)
+exit_btn = Button(window, height=6, width=70, font=buttonFont, text="⨷ Exit", justify=CENTER, bg="black", fg="white",
+                  command=window.destroy)
 
 # Positions of each button
-btn1.pack(anchor='center', pady=(8, 8))
-btn2.pack(anchor='center', pady=(8, 8))
-btn3.pack(anchor='center', pady=(8, 8))
-btn4.pack(anchor='center', pady=(8, 8))
+run_btn.pack(anchor='center', pady=(10, 10))
+list_btn.pack(anchor='center', pady=(10, 10))
+about_btn.pack(anchor='center', pady=(10, 10))
+exit_btn.pack(anchor='center', pady=(10, 10))
 
 # Hovering effects for button
-btn1.bind("<Enter>", on_enter_gray)
-btn1.bind("<Leave>", on_leave_black)
-btn2.bind("<Enter>", on_enter_gray)
-btn2.bind("<Leave>", on_leave_black)
-btn3.bind("<Enter>", on_enter_gray)
-btn3.bind("<Leave>", on_leave_black)
-btn4.bind("<Enter>", on_enter_gray)
-btn4.bind("<Leave>", on_leave_black)
-window.mainloop()
+run_btn.bind("<Enter>", on_enter_gray)
+run_btn.bind("<Leave>", on_leave_black)
+list_btn.bind("<Enter>", on_enter_gray)
+list_btn.bind("<Leave>", on_leave_black)
+about_btn.bind("<Enter>", on_enter_gray)
+about_btn.bind("<Leave>", on_leave_black)
+exit_btn.bind("<Enter>", on_enter_gray)
+exit_btn.bind("<Leave>", on_leave_black)
 
-dll.printList()
+window.mainloop()
