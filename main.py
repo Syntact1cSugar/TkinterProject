@@ -131,12 +131,50 @@ def on_leave_black(e):
     e.widget['background'] = 'black'
 
 
-def print_output(outputText):
+# Events that will be invoked upon clicking the buttons
+def insert_front_event(data, updated_button):
+    dll.insertFront(data)
+    updated_button.flash()
+
+
+def insert_rear_event(data, updated_button):
+    dll.insertRear(data)
+    updated_button.flash()
+
+
+def delete_front_event(updated_button):
+    dll.deleteFront()
+    updated_button.flash()
+
+
+def delete_rear_event(updated_button):
+    dll.deleteRear()
+    updated_button.flash()
+
+
+def reverse_event(updated_button):
+    dll.reverse()
+    updated_button.flash()
+
+
+def sort_event(updated_button):
+    dll.sort()
+    updated_button.flash()
+
+
+def remove_duplicates_event(updated_button):
+    dll.removeDuplicates()
+    updated_button.flash()
+
+
+def print_event(outputText, updated_button):
     outputText.delete("1.0", "end")
     for s in dll.printList():
         outputText.insert(END, s)
         outputText.insert(END, "\t")
+    updated_button.flash()
     return
+# End of event functions
 
 
 def run():
@@ -150,81 +188,92 @@ def run():
     input = tkinter.StringVar()
 
     # Output label
-    tkinter.Label(newWindow, font=('Comic Sans MS', 20, 'bold'), text="Input").pack()
+    tkinter.Label(newWindow, font=('Comic Sans MS', 15, 'bold'), text="Input").pack(pady=(5, 5))
 
     # create a text entry to take input
     inputEntry = tkinter.Entry(newWindow, font=('Comic Sans MS', 15, 'bold'), width=20, justify=CENTER,
                                textvariable=input)
-    inputEntry.pack(pady=(10, 10))
+    inputEntry.pack(pady=(5, 5))
+
+    # A button that blinks upon completion of an operation
+    updated_button = tkinter.Button(newWindow, font=('Comic Sans MS', 10, 'bold'), text="✓", height=1, width=5)
+    updated_button['activebackground'] = 'green'
+    updated_button['background'] = 'black'
+    updated_button['foreground'] = 'white'
+    updated_button.pack(pady=(5, 5))
 
     # Create a button to insert front of the list
-    insert_front_button = tkinter.Button(newWindow, font=buttonFont, text="Insert Front",
-                                         command=lambda: dll.insertFront(int(input.get())))
+    insert_front_button = tkinter.Button(newWindow, font=buttonFont, text="Insert Front 𝒪(𝐼)",
+                                         command=lambda: insert_front_event(int(input.get()), updated_button))
     insert_front_button['background'] = "black"
     insert_front_button['foreground'] = 'white'
     insert_front_button.bind("<Enter>", on_enter_gray)
     insert_front_button.bind("<Leave>", on_leave_black)
-    insert_front_button.pack(pady=(10, 10))
+    insert_front_button.pack(pady=(5, 5))
 
     # Create a button to insert rear of the list
-    insert_rear_button = tkinter.Button(newWindow, font=buttonFont, text="Insert Rear",
-                                        command=lambda: dll.insertRear(int(input.get())))
+    insert_rear_button = tkinter.Button(newWindow, font=buttonFont, text="Insert Rear 𝒪(𝑛)",
+                                        command=lambda: insert_rear_event(int(input.get()), updated_button))
     insert_rear_button['background'] = 'black'
     insert_rear_button['foreground'] = 'white'
     insert_rear_button.bind("<Enter>", on_enter_gray)
     insert_rear_button.bind("<Leave>", on_leave_black)
-    insert_rear_button.pack(pady=(10, 10))
+    insert_rear_button.pack(pady=(5, 5))
 
     # Create a button to delete the node at the front of the list
-    delete_front_button = tkinter.Button(newWindow, font=buttonFont, text="Delete Front", command=dll.deleteFront)
+    delete_front_button = tkinter.Button(newWindow, font=buttonFont, text="Delete Front 𝒪(𝐼)",
+                                         command=lambda: delete_front_event(updated_button))
     delete_front_button['background'] = 'black'
     delete_front_button['foreground'] = 'white'
     delete_front_button.bind("<Enter>", on_enter_gray)
     delete_front_button.bind("<Leave>", on_leave_black)
-    delete_front_button.pack(pady=(10, 10))
+    delete_front_button.pack(pady=(5, 5))
 
     # Create a button to delete the node at the end of the list
-    delete_rear_button = tkinter.Button(newWindow, font=buttonFont, text="Delete Rear", command=dll.deleteRear)
+    delete_rear_button = tkinter.Button(newWindow, font=buttonFont, text="Delete Rear 𝒪(𝑛)",
+                                        command=lambda: delete_rear_event(updated_button))
     delete_rear_button['foreground'] = 'white'
     delete_rear_button['background'] = 'black'
     delete_rear_button.bind("<Enter>", on_enter_gray)
     delete_rear_button.bind("<Leave>", on_leave_black)
-    delete_rear_button.pack(pady=(10, 10))
+    delete_rear_button.pack(pady=(5, 5))
 
     # Create a button to reverse the list
-    reverse_button = tkinter.Button(newWindow, font=buttonFont, text="Reverse", command=dll.reverse)
+    reverse_button = tkinter.Button(newWindow, font=buttonFont, text="Reverse 𝒪(𝑛)",
+                                    command=lambda: reverse_event(updated_button))
     reverse_button['background'] = 'black'
     reverse_button['foreground'] = 'white'
     reverse_button.bind("<Enter>", on_enter_gray)
     reverse_button.bind("<Leave>", on_leave_black)
-    reverse_button.pack(pady=(10, 10))
+    reverse_button.pack(pady=(5, 5))
 
     # Create a button to sort the list
-    sort_button = Button(newWindow, font=buttonFont, text="Sort", command=dll.sort)
+    sort_button = Button(newWindow, font=buttonFont, text="Sort 𝒪(𝑛^2)",
+                         command=lambda: sort_event(updated_button))
     sort_button['background'] = 'black'
     sort_button['foreground'] = 'white'
     sort_button.bind("<Enter>", on_enter_gray)
     sort_button.bind("<Leave>", on_leave_black)
-    sort_button.pack(pady=(10, 10))
+    sort_button.pack(pady=(5, 5))
 
     # Create a button to remove duplicates from the list
-    remove_duplicates_button = tkinter.Button(newWindow, font=buttonFont, text="Remove Duplicates",
-                                              command=dll.removeDuplicates)
+    remove_duplicates_button = tkinter.Button(newWindow, font=buttonFont, text="Remove Duplicates 𝒪(𝑛^2)",
+                                              command=lambda : remove_duplicates_event(updated_button))
     remove_duplicates_button['background'] = 'black'
     remove_duplicates_button['foreground'] = 'white'
     remove_duplicates_button.bind("<Enter>", on_enter_gray)
     remove_duplicates_button.bind("<Leave>", on_leave_black)
-    remove_duplicates_button.pack(pady=(10, 10))
+    remove_duplicates_button.pack(pady=(5, 5))
 
     # Create a button to print / traverse the list
 
-    print_list_button = tkinter.Button(newWindow, font=buttonFont, text='Print List',
-                                       command=lambda: print_output(outputText))
+    print_list_button = tkinter.Button(newWindow, font=buttonFont, text='Traverse 𝒪(𝑛)',
+                                       command=lambda: print_event(outputText, updated_button))
     print_list_button['background'] = 'black'
     print_list_button['foreground'] = 'white'
     print_list_button.bind("<Enter>", on_enter_gray)
     print_list_button.bind("<Leave>", on_leave_black)
-    print_list_button.pack(pady=(10, 10))
+    print_list_button.pack(pady=(5, 5))
 
     # Output Label
     tkinter.Label(newWindow, font=('Comic Sans MS', 15, 'bold'), text="Output : ").pack(pady=(5, 5))
@@ -237,7 +286,7 @@ def run():
     # Back Button
     back_btn = Button(newWindow, font=buttonFont, width=5, height=1, text="◁", bg="black", fg="white",
                       command=newWindow.destroy)
-    back_btn.pack(side=RIGHT, expand=5, fill=X)
+    back_btn.pack(pady=(10, 10), fill=X)
     # Hovering for the back btn
     back_btn.bind("<Enter>", on_enter_gray)
     back_btn.bind("<Leave>", on_leave_black)
@@ -310,10 +359,10 @@ exit_btn = Button(window, height=6, width=70, font=buttonFont, text="⨷ Exit", 
                   command=window.destroy)
 
 # Positions of each button
-run_btn.pack(anchor='center', pady=(10, 10))
-list_btn.pack(anchor='center', pady=(10, 10))
-about_btn.pack(anchor='center', pady=(10, 10))
-exit_btn.pack(anchor='center', pady=(10, 10))
+run_btn.pack(anchor='center', pady=(8, 8))
+list_btn.pack(anchor='center', pady=(8, 8))
+about_btn.pack(anchor='center', pady=(8, 8))
+exit_btn.pack(anchor='center', pady=(8, 8))
 
 # Hovering effects for button
 run_btn.bind("<Enter>", on_enter_gray)
